@@ -106,6 +106,25 @@ class Micromdm_controller extends Module_controller
     }
     
     /**
+     * Do a DEP-sync
+    **/
+    public function dep_sync()
+    {
+        // Issue a dep-sync with microMDM
+        $micromdm_functions = new \micromdm\micromdm;
+        $version_result = $micromdm_functions->Call("v1/dep/syncnow","POST",null);
+        // Check if we got results from micromdm api
+        if ($version_result == "200" ){
+            $return_status="ok";
+        } else {
+            $return_status="error";
+        }
+        // Send result
+        $out = array("status"=>$return_status);
+        jsonView($out);
+    }
+    
+    /**
      * Return JSON with information for admin page
      *
      * @return void

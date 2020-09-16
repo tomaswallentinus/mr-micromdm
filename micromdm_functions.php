@@ -15,15 +15,15 @@ class micromdm {
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
             'Accept: application/json;charset=utf-8',
             'Content-Type: application/json;charset=utf-8',
-            'Authorization: ' . env('MICROMDM_BASIC_LOGIN', '')
+            'Authorization: basic ' . env('MICROMDM_BASIC_LOGIN', '')
         ));
         $response = curl_exec($ch);
+        $response_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if (curl_error($ch)) {
-            echo 'CURL url: ' . $micromdmPath . '/' .  $uri . '<br>';
-            echo 'CURL data: ' . $data . '<br>';
-            echo 'CURL request method: ' . $method . '<br>';
-            echo 'CURL Authorization: ' . $base64BasicLogin . '<br>';
-            echo 'CURL error: ' . curl_error($ch) . '<br>';
+            $response=array('status'=>'Curl error','url'=>$micromdmPath . '/' .  $uri,'data'=>$data,'method'=>$method,'authorization'=>$base64BasicLogin,'error',curl_error($ch));
+        }
+        if ($response==''){
+            $response=$response_code;
         }
         curl_close($ch);
         return $response;
