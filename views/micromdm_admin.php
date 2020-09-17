@@ -12,6 +12,39 @@
         <br id="Progress-Space" class="hide">
         <div id="MicroMDM-Status"></div>
     </div>
+    <?php
+    //Get latest commits from MicroMDM github-page
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/micromdm/micromdm/commits");
+    curl_setopt($ch, CURLOPT_FAILONERROR,true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    //To comply with https://developer.github.com/v3/#user-agent-required
+    curl_setopt($ch, CURLOPT_USERAGENT, "Munkireport");
+    $response = curl_exec($ch);
+    if (curl_error($ch)) {
+        print_r(array('status'=>'Curl error','error',curl_error($ch)));
+    }
+    if (strpos($response,'"commit"') !== false){
+        $github_response=json_decode($response, true);
+        echo '<div class="col-lg-7 col-md-6">
+            <div class="panel panel-default" id="micromdm-commits-widget">
+                <div class="panel-heading" data-container="body">
+                    <div class="panel-title">
+                        <span data-i18n="micromdm.github_commits"></span>
+                    </div>
+                </div>
+                <div class="list-group scroll-box">';
+        foreach ($github_response as $commits){
+            echo '<div class="list-group-item">
+                    <span class="badge pull-right">' . $commits['commit']['committer']['date'] . '</span><span>' . $commits['commit']['message'] . '</span>
+                </div>';
+        }
+        echo '</div>
+            </div><!-- /panel -->
+        </div>';
+    }
+    ?>
 </div>  <!-- /container -->
 
 <script>

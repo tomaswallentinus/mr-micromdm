@@ -42,7 +42,7 @@ class Micromdm_controller extends Module_controller
                 $yaml_data = (object) Symfony\Component\Yaml\Yaml::parse($version_result);
             } else {
                 // Create dummy file
-                $yaml_data = (object) array('version'=>'unknown');
+                $yaml_data = (object) array('version'=>'unknown','build_date'=>'unknown');
                 $version_result = $yaml_data;
                 $yaml_encode=Symfony\Component\Yaml\Yaml::dump($yaml_data);
                 file_put_contents(__DIR__ . '/micromdm_version.yml', $yaml_encode);
@@ -57,7 +57,8 @@ class Micromdm_controller extends Module_controller
             $return_status = 1;
             $cache_source = 1;
         }
-        $version = $yaml_data->version;
+        $version = $yaml_data->version . ' (' . $yaml_data->build_date . ')';
+
 
         // Get the current time
         $current_time = time();

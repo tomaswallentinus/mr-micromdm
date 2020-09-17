@@ -1,7 +1,7 @@
 admin_pages:
     admin:
         view: micromdm_admin
-        i18n: micromdm.micromdm
+        i18n: micromdm.micromdm_admin
 client_tabs:
     micromdm:
         view: micromdm_tab

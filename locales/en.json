@@ -1,16 +1,24 @@
 {
+    "micromdm_admin":"MicroMDM Admin",
+    "title_admin": "MicroMDM Admin",
+    "last_cache_update":"Latest fetch",
+    "cache_source":"Fetched from",
+    "version":"MicroMDM version",
+    "fetch_version":"Fetch server version",
+    "sync_dep":"Sync DEP",
     "column": {
         "mdm_enrollment_status": "MDM Enrollment Status",
         "dep_enrollment_status": "DEP Enrollment Status",
         "micromdm_version": "MicroMDM Version"
     },
     "listing": {
-        "title": "micromdm"
+        "title": "MicroMDM"
     },
     "report": {
-        "title": "micromdm"
+        "title": "MicroMDM"
     },
-    "title": "micromdm",
+    "title": "MicroMDM",
+    "github_commits": "Github - updates",
     "widget": {
         "mdm_enrollment_status_title": "MDM Enrollment Status",
         "dep_enrollment_status_title": "DEP Enrollment Status",
