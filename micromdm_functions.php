@@ -35,7 +35,7 @@ class micromdm {
         $payload['udid']=$platform_UUID;
         $payload['request_type']=secIn($requestType);
         switch ($requestType) {
-            case 'push':
+            case 'Push':
                 $payload=array();
                 $uri="push/" . $platform_UUID;
                 $method="GET";
@@ -78,6 +78,8 @@ class micromdm {
                 $payload=array();
                 //Use XML Parsing, or do we need this as it's possible from other modules?
             break;
+            default:
+                return 'error: select request type';
         }
         return $this->Call($uri,$method,json_encode($payload, JSON_UNESCAPED_SLASHES));
     }
