@@ -1,5 +1,4 @@
 <?php $this->view('partials/head'); ?>
-
 <div class="container">
     <div class="row"><span id="micromdm_pull_all"></span></div>
     <div class="col-lg-12" id="micromdm_sync_dep"></div>
@@ -13,6 +12,7 @@
         <div id="MicroMDM-Status"></div>
     </div>
     <?php
+//Add support for v1/dep/account GET
     //Get latest commits from MicroMDM github-page
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/micromdm/micromdm/commits");
@@ -37,7 +37,7 @@
                 <div class="list-group scroll-box">';
         foreach ($github_response as $commits){
             echo '<div class="list-group-item">
-                    <span class="badge pull-right">' . $commits['commit']['committer']['date'] . '</span><span>' . $commits['commit']['message'] . '</span>
+                    <span class="badge pull-right">' . $commits['commit']['committer']['date'] . '</span><span class="text-break">' . $commits['commit']['message'] . '</span>
                 </div>';
         }
         echo '</div>

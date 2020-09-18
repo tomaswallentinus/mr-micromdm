@@ -27,8 +27,6 @@ class Micromdm_controller extends Module_controller
     **/
     public function update_cached_data()
     {
-        $queryobj = new micromdm_model();
-
         // Create YAML from micromdm json
         $micromdm_functions = new \micromdm\micromdm;
         $version_result = $micromdm_functions->Call("version","GET",null);
@@ -118,13 +116,25 @@ class Micromdm_controller extends Module_controller
         if ($version_result == "200" ){
             $return_status="ok";
         } else {
-            $return_status="error";
+            $return_status="error: " . $version_result;
         }
         // Send result
         $out = array("status"=>$return_status);
         jsonView($out);
     }
-    
+    /**
+     * Issue device specific micromdm calls
+    **/
+    public function requestType($requestType,$serial_number){
+        $platform_UUID = Machine_model::selectRaw('machine.platform_UUID')
+            ->filter()
+            ->whereSerialNumber($serial_number)
+            ->limit(1)
+            ->first()
+            ->toArray();
+        $micromdm_functions = new \micromdm\micromdm;
+        print_r($micromdm_functions->requestType($requestType,$platform_UUID['platform_UUID']));
+    }
     /**
      * Return JSON with information for admin page
      *
@@ -145,7 +155,6 @@ class Micromdm_controller extends Module_controller
                         ->where('module', 'micromdm')
                         ->where('property', 'last_update')
                         ->value('value');
-
         $out = array('version' => $version,'source' => $source,'last_update' => $last_update);
         jsonView($out);
     }
