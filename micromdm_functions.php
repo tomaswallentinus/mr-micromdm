@@ -9,7 +9,7 @@ class micromdm {
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        if (isset($data) && $data!=''){curl_setopt($ch, CURLOPT_POSTFIELDS, $data);}
+        if (isset($data) && $data!='' && $data!='[]'){curl_setopt($ch, CURLOPT_POSTFIELDS, $data);}
         curl_setopt($ch, CURLOPT_FAILONERROR,true);
         curl_setopt($ch, CURLOPT_USERAGENT, "Munkireport - Micromdm module");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -30,10 +30,10 @@ class micromdm {
         return $response;
     }
     public function requestType($requestType,$platform_UUID){
-        $method='';
-        $uri='';
-        $payload['udid']=$platform_UUID;
+        $method='POST';
+        $uri='v1/commands';
         $payload['request_type']=secIn($requestType);
+        $payload['udid']=$platform_UUID;
         switch ($requestType) {
             case 'Push':
                 $payload=array();
@@ -59,10 +59,8 @@ class micromdm {
                 $payload['primary_account_full_name']='full name';
             break;
             case 'RestartDevice';
-                $payload=array();
             break;
             case 'LogOutUser';
-                $payload=array();
             break;
             case 'DeviceLock';
                 //Need to save the PIN
@@ -75,7 +73,6 @@ class micromdm {
                 $payload['management_flags']='1';
             break;
             case 'ProfileList';
-                $payload=array();
                 //Use XML Parsing, or do we need this as it's possible from other modules?
             break;
             default:
